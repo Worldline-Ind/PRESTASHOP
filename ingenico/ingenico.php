@@ -122,12 +122,29 @@ class Ingenico extends PaymentModule
 	}
 	
 	public function hookDisplayPaymentEU()
-	{
+	{   
 		if (!$this->active)
 			return ;
+
+		$merchantDetails = $this->getConfigFormValues();
+		$logo_icon_name = $merchantDetails["logo_icon_name"];
+		if(!$logo_icon_name){
+			$logo_text = "Ingenico";
+			$logo_img = "";
+		}elseif(!empty($logo_icon_name) && @getimagesize($logo_icon_name)){
+			$logo_img = $logo_icon_name;
+			$logo_text = "";
+		}elseif(!empty($logo_icon_name) && !@getimagesize($logo_icon_name)){
+			$logo_text = "Ingenico";
+			$logo_img = "";
+		}else{
+			$logo_text = $logo_icon_name;
+			$logo_img = "";
+		}
+
 		return array(
-			'cta_text' => "",
-			'logo' => Media::getMediaPath(dirname(__FILE__).'/logo.png'),
+			'cta_text' => $logo_text,
+			'logo' => $logo_img,
 			'action' => $this->context->link->getModuleLink($this->name, 'request', array('confirm' => true), true)
 		); 
 		
@@ -585,6 +602,14 @@ class Ingenico extends PaymentModule
 		                        'name' => 'name',
 		                    ),
 		            ),
+		            array(
+                        'col' => 3,
+                        'type' => 'textarea',
+                        'name' => 'logo_icon_name',
+                        'placeholder'=> "Ingenico",
+                        'label' => $this->l('Payment Icon/Text'),
+                        'desc' => "Payment Icon/Text",
+                    ),
 
                 ),
                 'submit' => array(
@@ -624,6 +649,7 @@ class Ingenico extends PaymentModule
             'paymentMode' => Configuration::get('paymentMode', null),
             'paymentModeOrder' => Configuration::get('paymentModeOrder', null),
             'checkoutElement' => Configuration::get('checkoutElement', null),
+            'logo_icon_name' => Configuration::get('logo_icon_name', null),
         );
     }
 }

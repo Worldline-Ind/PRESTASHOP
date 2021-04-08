@@ -96,6 +96,7 @@ class IngenicoresponseModuleFrontController extends ModuleFrontController
                 $this->redirectWithNotifications($url);
                 
             }
+            
             Tools::redirectLink($url);
         }
     }
