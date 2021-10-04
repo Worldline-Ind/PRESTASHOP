@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-    <name>ingenico</name>
-    <displayName><![CDATA[Ingenico]]></displayName>
+    <name>worldline</name>
+    <displayName><![CDATA[worldline]]></displayName>
     <version><![CDATA[1.0]]></version>
-    <description><![CDATA[Ingenico Payment Method]]></description>
+    <description><![CDATA[worldline Payment Method]]></description>
     <author><![CDATA[Techprocess]]></author>
     <tab><![CDATA[payments_gateways]]></tab>
     <is_configurable>1</is_configurable>

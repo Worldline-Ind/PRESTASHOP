@@ -19,7 +19,7 @@
           {/block}
         </header>
         
-        <div id="ingenicopayment"></div>
+        <div id="worldlinepayment"></div>
 
 
         <section id="wrapper">

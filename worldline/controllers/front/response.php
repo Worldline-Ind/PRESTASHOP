@@ -1,6 +1,6 @@
 <?php
 
-class IngenicoresponseModuleFrontController extends ModuleFrontController
+class worldlineresponseModuleFrontController extends ModuleFrontController
 {
 	 public function postProcess()
     {  
@@ -11,10 +11,10 @@ class IngenicoresponseModuleFrontController extends ModuleFrontController
             $merchantDetails = $this->module->getConfigFormValues();
             if (is_array($response)) {
                 $str = $response['msg'];
-                $filename = 'Ingenico_' . date("Ymd") . '.log';
+                $filename = 'worldline_' . date("Ymd") . '.log';
                 $logger = new FileLogger(0);
                 $logger->setFilename(_PS_ROOT_DIR_."/var/logs/". $filename);
-                $logger->log("Ingenico Response: ".$str);
+                $logger->log("worldline Response: ".$str);
 
             }
 
@@ -71,7 +71,7 @@ class IngenicoresponseModuleFrontController extends ModuleFrontController
                 if($_GET['isGuest'] == '1'){
                     $url = $domain . __PS_BASE_URI__ .'/index.php?controller=guest-tracking&order_reference='.$orderReference.'&email='.$_GET['guestEmail'];
                 }else {
-                    $url = $domain . __PS_BASE_URI__ . '/index.php?controller=order-detail&id_order='.(int)$this->module->currentOrder;
+                    $url = $domain . __PS_BASE_URI__ . '/index.php?controller=order-confirmation&id_order='.(int)$this->module->currentOrder;
                 }
 
                 $this->success[] = $this->l("Your order Has been Successfully Placed");

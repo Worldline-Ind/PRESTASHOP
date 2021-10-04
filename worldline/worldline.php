@@ -2,16 +2,16 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-class Ingenico extends PaymentModule
+class worldline extends PaymentModule
 {
 	private $_html = '';
 	private $error_messages;
 	public function __construct()
 	{	
-		$this->name = 'ingenico';
+		$this->name = 'Worldline';
 		$this->tab = 'payments_gateways';
 		$this->version = '1.0';
-		$this->author = 'Ingenico ePayments';
+		$this->author = 'worldline ePayments';
 		$this->need_instance = 0;
 		$this->controllers = array('request');
 		$this->is_eu_compatible = 1;
@@ -22,8 +22,8 @@ class Ingenico extends PaymentModule
  
 		parent::__construct();
 
-		$this->displayName = $this->l('Ingenico');
-		$this->description = $this->l("Ingenico ePayments (a Worldline brand) is India's leading digital payment solutions company. We are present in India for over 20 years and are powering over 550,000 businesses with our tailored payment solution.");
+		$this->displayName = $this->l('Worldline');
+		$this->description = $this->l("worldline ePayments is India's leading digital payment solutions company. We are present in India for over 20 years and are powering over 550,000 businesses with our tailored payment solution.");
 
 		/* For 1.4.3 and less compatibility */
 		$updateConfig = array('PS_OS_CHEQUE', 'PS_OS_PAYMENT', 'PS_OS_PREPARATION', 'PS_OS_SHIPPING', 'PS_OS_CANCELED', 'PS_OS_REFUND', 'PS_OS_ERROR', 'PS_OS_OUTOFSTOCK', 'PS_OS_BANKWIRE', 'PS_OS_PAYPAL', 'PS_OS_WS_PAYMENT');
@@ -40,7 +40,7 @@ class Ingenico extends PaymentModule
 		$this->registerHook('displayPaymentEU');
 		$this->registerHook('paymentReturn');
 		$this->registerHook('actionProductCancel');
-		Configuration::updateValue('Ingenico_checkout_label', 'Pay Using Ingenico');
+		Configuration::updateValue('worldline_checkout_label', 'Pay Using worldline');
 		return true;
 	}
 	
@@ -48,10 +48,10 @@ class Ingenico extends PaymentModule
 	public function uninstall()
 	{
 		  $this->uninstallModuleTab() && $this->uninstallModuleReconcilation() && parent::uninstall();
-		  Configuration::deleteByName('ingenico_client_id');
-		  Configuration::deleteByName('ingenico_client_secret');
+		  Configuration::deleteByName('worldline_client_id');
+		  Configuration::deleteByName('worldline_client_secret');
 		  Configuration::deleteByName('instmaojo_testmode');
-		  Configuration::deleteByName('Ingenico_checkout_label');
+		  Configuration::deleteByName('worldline_checkout_label');
 		return true;
 	}
 
@@ -113,8 +113,8 @@ class Ingenico extends PaymentModule
 		
 		$this->smarty->assign(array(
 			'this_path' => $this->_path,
-			'this_path_ingenico' => $this->_path,
-			'checkout_label' => $this->l((Configuration::get('Ingenico_checkout_label')) ? Configuration::get('Ingenico_checkout_label'): "Pay using Ingenico"),
+			'this_path_worldline' => $this->_path,
+			'checkout_label' => $this->l((Configuration::get('worldline_checkout_label')) ? Configuration::get('worldline_checkout_label'): "Pay using worldline"),
 			'this_path_ssl' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/' . $this->name . '/'
 		));
 		
@@ -129,13 +129,13 @@ class Ingenico extends PaymentModule
 		$merchantDetails = $this->getConfigFormValues();
 		$logo_icon_name = $merchantDetails["logo_icon_name"];
 		if(!$logo_icon_name){
-			$logo_text = "Ingenico";
+			$logo_text = "Pay by Worldline";
 			$logo_img = "";
 		}elseif(!empty($logo_icon_name) && @getimagesize($logo_icon_name)){
 			$logo_img = $logo_icon_name;
 			$logo_text = "";
 		}elseif(!empty($logo_icon_name) && !@getimagesize($logo_icon_name)){
-			$logo_text = "Ingenico";
+			$logo_text = "Pay by Worldline";
 			$logo_img = "";
 		}else{
 			$logo_text = $logo_icon_name;
@@ -232,7 +232,7 @@ class Ingenico extends PaymentModule
 	# Show Configuration form in admin panel.
     public function getContent()
     {
-        if (((bool)Tools::isSubmit('submitIngenicoModule')) == true) {
+        if (((bool)Tools::isSubmit('submitworldlineModule')) == true) {
             $this->postProcess();
         }
 
@@ -260,7 +260,7 @@ class Ingenico extends PaymentModule
         $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
 
         $helper->identifier = $this->identifier;
-        $helper->submit_action = 'submitIngenicoModule';
+        $helper->submit_action = 'submitworldlineModule';
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
             .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
@@ -358,6 +358,7 @@ class Ingenico extends PaymentModule
                         'col' => 3,
                         'type' => 'text',
                         'name' => 'merchant_logo_url',
+						'value'=>'https://www.paynimo.com/CompanyDocs/company-logo-md.png',
                         'label' => $this->l('Logo Url'),
                          'desc' => "An absolute URL pointing to a logo image of merchant which will show on checkout popup",
                     ),
@@ -532,7 +533,7 @@ class Ingenico extends PaymentModule
 		            array(
 		            'type' => 'select',
 		            'label' => $this->l('Payment Mode'),
-		             'desc' => "If Bank selection is at Ingenico ePayments India Pvt. Ltd. (a Worldline brand) end then select all, if bank selection at Merchant end then pass appropriate mode respective to selected option",
+		             'desc' => "If Bank selection is at worldline ePayments India Pvt. Ltd. end then select all, if bank selection at Merchant end then pass appropriate mode respective to selected option",
 		            'name' => 'paymentMode',
 		            'options' => array(
 		                        'query' => $options = array(
@@ -606,7 +607,7 @@ class Ingenico extends PaymentModule
                         'col' => 3,
                         'type' => 'textarea',
                         'name' => 'logo_icon_name',
-                        'placeholder'=> "Ingenico",
+                        'placeholder'=> "worldline",
                         'label' => $this->l('Payment Icon/Text'),
                         'desc' => "Payment Icon/Text",
                     ),

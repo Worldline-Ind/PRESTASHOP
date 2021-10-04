@@ -4,7 +4,7 @@ function is_not_17(){
 	return version_compare(_PS_VERSION_, '1.7', '<');
 }
 
-class Ingenicos2sverificationModuleFrontController extends ModuleFrontController
+class worldlines2sverificationModuleFrontController extends ModuleFrontController
 {
 	public function postProcess()
     {

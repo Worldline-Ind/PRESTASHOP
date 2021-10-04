@@ -4,7 +4,7 @@ function is_not_17(){
 	return version_compare(_PS_VERSION_, '1.7', '<');
 }
 
-class IngenicorequestModuleFrontController extends ModuleFrontController
+class worldlinerequestModuleFrontController extends ModuleFrontController
 {
 	public $ssl = true;
 	private $template_data = array();
@@ -63,11 +63,11 @@ class IngenicorequestModuleFrontController extends ModuleFrontController
             
             $orderId = $this->context->cart->id;
             $returnUrl = $domain . __PS_BASE_URI__ .
-                "index.php?fc=module&module=ingenico&controller=response&currentOrderId=" . $orderId . "&isGuest=" . $isGuest .
+                "index.php?fc=module&module=worldline&controller=response&currentOrderId=" . $orderId . "&isGuest=" . $isGuest .
                 "&guestEmail=" . $customer->email .  "&cartId=" . (int)$this->context->cart->id;
 
             $returnUrl2 = $domain . __PS_BASE_URI__ .
-                "index.php?fc=module&module=ingenico&controller=response&currentOrderId=" . $orderId . "&isGuest=" . $isGuest .
+                "index.php?fc=module&module=worldline&controller=response&currentOrderId=" . $orderId . "&isGuest=" . $isGuest .
                 "&guestEmail=" . $customer->email .  "&cartId=" . (int)$this->context->cart->id;
 
             $this->data['returnUrl2'] = $returnUrl2;
@@ -115,7 +115,7 @@ class IngenicorequestModuleFrontController extends ModuleFrontController
                 $this->data['merchant_logo_url'] = 'https://www.paynimo.com/CompanyDocs/company-logo-md.png';
             }
             if($merchantDetails['checkoutElement'] == 'yes'){
-               $this->data['checkoutElement'] = '#ingenicopayment';
+               $this->data['checkoutElement'] = '#worldlinepayment';
             } else {
                 $this->data['checkoutElement'] = '';
             }
@@ -190,17 +190,17 @@ class IngenicorequestModuleFrontController extends ModuleFrontController
 
             $extra_vars = Array(); 
             $extra_vars['transaction_id'] = $this->data["merchantTxnRefNumber"];
-            $filename = 'Ingenico_' . date("Ymd") . '.log';
+            $filename = 'worldline_' . date("Ymd") . '.log';
             $logger = new FileLogger(0);
             $logger->setFilename(_PS_ROOT_DIR_."/var/logs/". $filename);
-            $logger->log("Ingenico Request: ".$datastring);
+            $logger->log("worldline Request: ".$datastring);
 
 
             $link_obj  = new Link();
             $link = $link_obj->getPageLink("order.php");
             $this->data["checkout_url"] = $link; 
 
-            $this->module->validateOrder($this->context->cart->id , _PS_OS_PREPARATION_, $total, Configuration::get('Ingenico_checkout_label'), NULL, $extra_vars, NULL, false, $customer->secure_key, NULL);
+            $this->module->validateOrder($this->context->cart->id , _PS_OS_PREPARATION_, $total, Configuration::get('worldline_checkout_label'), NULL, $extra_vars, NULL, false, $customer->secure_key, NULL);
 
             $oldCart = new Cart($this->context->cart->id);
             $duplication = $oldCart->duplicate();
@@ -219,7 +219,7 @@ class IngenicorequestModuleFrontController extends ModuleFrontController
 	public function initContent()
 	{      
         $this->context->smarty->assign('data', $this->data);
-        $this->setTemplate('module:Ingenico/views/templates/front/ingenico.tpl');
+        $this->setTemplate('module:worldline/views/templates/front/worldline.tpl');
 		parent::initContent();
 	}
 

@@ -27,7 +27,7 @@ class AdminReconcilationController extends ModuleAdminController
 				ON o.id_order_payment = b.id_order_payment
 				JOIN '. _DB_PREFIX_ .'orders h
 				ON h.id_order = b.id_order
-				WHERE h.current_state=3 AND o.payment_method= "Pay Using Ingenico" AND o.transaction_id IS NOT NULL AND h.date_add BETWEEN "' .$fromdate. ' 00:00:00" AND "'.$todate.' 23:59:59" ORDER BY h.id_order DESC;'; 
+				WHERE h.current_state=3 AND o.payment_method= "Pay Using worldline" AND o.transaction_id IS NOT NULL AND h.date_add BETWEEN "' .$fromdate. ' 00:00:00" AND "'.$todate.' 23:59:59" ORDER BY h.id_order DESC;'; 
 
         	$query = Db::getInstance()->executeS($sql);
         	$successFullOrdersIds = [];
