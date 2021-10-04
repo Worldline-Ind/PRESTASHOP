@@ -1,3 +1,3 @@
 1. Download the repository
-2. Use the zip the 'ingenico.zip'folder
+2. Use the zip the 'worldline.zip'folder
 3. Upload the ingenico.zip module from module manager
