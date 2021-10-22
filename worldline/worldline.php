@@ -126,13 +126,13 @@ class worldline extends PaymentModule
 		$merchantDetails = $this->getConfigFormValues();
 		$logo_icon_name = $merchantDetails["logo_icon_name"];
 		if (!$logo_icon_name) {
-			$logo_text = "Pay by Worldline";
+			$logo_text = "Cards / UPI / Netbanking / Wallets";
 			$logo_img =  _PS_BASE_URL_ . __PS_BASE_URI__ . 'modules/worldline/views/img/logo-sm.png';
 		} elseif (!empty($logo_icon_name) && @getimagesize($logo_icon_name)) {
 			$logo_img = $logo_icon_name;
 			$logo_text = "";
 		} elseif (!empty($logo_icon_name) && !@getimagesize($logo_icon_name)) {
-			$logo_text = "Pay by Worldline";
+			$logo_text = "Cards / UPI / Netbanking / Wallets";
 			$logo_img = "";
 		} else {
 			$logo_text = $logo_icon_name;
